@@ -1,0 +1,20 @@
+[
+    {
+        "name": "viraat",
+        "blood_group": "A+",
+        "last_donation": "2026-03-18",
+        "id": 1
+    },
+    {
+        "name": "viraat",
+        "blood_group": "A+",
+        "last_donation": "2026-03-18",
+        "id": 2
+    },
+    {
+        "name": "ravi",
+        "blood_group": "O-",
+        "last_donation": "2026-03-18",
+        "id": 3
+    }
+]
