@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import plotly.express as px
 
-BASE = "https://blood-bank-management-czmd.onrender.com"
+BASE = "https://blood-bank-management-1-nrdt.onrender.com"
 
 st.set_page_config(page_title="Blood Bank", layout="wide")
 
