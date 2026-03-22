@@ -16,9 +16,9 @@ app.add_middleware(
 )
 
 # ✅ FIXED PATHS (NO ../)
-DONOR_FILE = "data/donors.json"
-REQUEST_FILE = "data/requests.json"
-BLOOD_FILE = "data/blood.json"
+DONOR_FILE = "../data/donors.json"
+REQUEST_FILE = "../data/requests.json"
+BLOOD_FILE = "../data/blood.json"
 
 
 # =========================
