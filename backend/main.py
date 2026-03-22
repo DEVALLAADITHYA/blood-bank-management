@@ -2,12 +2,23 @@ from fastapi import FastAPI, HTTPException
 from datetime import datetime
 from models import Donor, Blood, Request
 from utils import read_data, write_data
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-DONOR_FILE = "../data/donors.json"
-REQUEST_FILE = "../data/requests.json"
-BLOOD_FILE = "../data/blood.json"
+# ✅ CORS (IMPORTANT for Streamlit frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ✅ FIXED PATHS (NO ../)
+DONOR_FILE = "data/donors.json"
+REQUEST_FILE = "data/requests.json"
+BLOOD_FILE = "data/blood.json"
 
 
 # =========================
@@ -17,13 +28,10 @@ BLOOD_FILE = "../data/blood.json"
 def add_donor(donor: Donor):
     donors = read_data(DONOR_FILE)
 
-    # ✅ Convert to JSON-safe dict (fixes date issue)
     data = donor.model_dump(mode="json")
 
-    # 🔥 90 DAYS VALIDATION
     for d in donors:
         if d["name"].lower() == data["name"].lower() and d["blood_group"] == data["blood_group"]:
-            
             last = datetime.strptime(d["last_donation"], "%Y-%m-%d")
             new = datetime.strptime(data["last_donation"], "%Y-%m-%d")
 
@@ -35,7 +43,6 @@ def add_donor(donor: Donor):
                     detail=f"Donor not eligible. Only {days} days passed (need 90 days)."
                 )
 
-    # ✅ Add donor
     data["id"] = len(donors) + 1
     donors.append(data)
 
@@ -53,7 +60,7 @@ def get_donors():
 
 
 # =========================
-# ✅ ELIGIBLE DONORS (>=90 DAYS)
+# ✅ ELIGIBLE DONORS
 # =========================
 @app.get("/donor/eligible")
 def eligible():
@@ -85,7 +92,7 @@ def search(blood_group: str):
 def add_blood(blood: Blood):
     data = read_data(BLOOD_FILE)
 
-    data.append(blood.model_dump())  # ✅ better than .dict()
+    data.append(blood.model_dump())
 
     write_data(BLOOD_FILE, data)
 
