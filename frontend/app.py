@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import plotly.express as px
 
-BASE = "http://127.0.0.1:8000"
+BASE = "https://blood-bank-management-czmd.onrender.com"
 
 st.set_page_config(page_title="Blood Bank", layout="wide")
 
